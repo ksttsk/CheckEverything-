@@ -13,8 +13,8 @@ public class App {
 
 	public static void main(String[] args)
 	{
-		String http = "http://";
-		String domain = "www.amazon.de";
+		String http = "";
+		String domain = "http://www.amazon.de";
 		
 		String address = http + domain;
 		int levelStart = 1;

@@ -74,6 +74,7 @@ public class ReaderWriter {
 				content += line;
 	        }
 		} catch (MalformedURLException e) {
+			System.out.println(urlAddress);
 			e.printStackTrace();
 		} catch (IOException e) {
 			

@@ -23,12 +23,12 @@ public class HTMLHandler {
 		//Element content = doc.getElementById("content");
 		Elements links = doc.getElementsByTag("a");
 		for (Element link : links) {
-		  linkHref = link.attr("href");
-		  linkText = link.text();
-		  if(!linkText.isEmpty())
-		  {
-			  Infos.add(getCompleteHref(linkHref));
-		  }		  
+			linkHref = link.attr("href");
+			linkText = link.text();
+			if(!linkText.isEmpty())
+			{
+				Infos.add(getCompleteHref(linkHref));
+			}		  
 		}		
 		return Infos;
 	}
