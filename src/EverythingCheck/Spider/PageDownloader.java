@@ -13,6 +13,10 @@ public class PageDownloader {
 	private String pageContent;	
 	private String filePath;
 		
+	public String getFilePath() {
+		return filePath;
+	}
+
 	public PageDownloader(String urlAddress) {
 		this.urlAddress = urlAddress;	
 		this.rw = new ReaderWriter();

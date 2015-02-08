@@ -1,88 +1,53 @@
-/**
- * Purpose: the class gets information from the HTML files
- */
-
 package Utility;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.FileReader;
-import java.io.Reader;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
-import javax.swing.text.html.parser.ParserDelegator;
-import javax.swing.text.html.HTMLEditorKit.ParserCallback;
-import javax.swing.text.html.HTML.Tag;
-import javax.swing.text.html.HTML.Attribute;
-import javax.swing.text.MutableAttributeSet;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 public class HTMLHandler {
-	private static String domain;
-	private static FileReader reader;
-	
-	public HTMLHandler(String domain, String filePath) {
-		this.domain = domain;
-		try {
-			this.reader = new FileReader(filePath);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
-	/**
-	 * @Purpose get the href links from the html page.
-	 * @param reader
-	 * @return
-	 */
-	public static List<String> extractLinks() {
-		final ArrayList<String> list = new ArrayList<String>();
-
-		ParserDelegator parserDelegator = new ParserDelegator();
-		ParserCallback parserCallback = new ParserCallback() {
-			public void handleText(final char[] data, final int pos) { }
-			public void handleStartTag(Tag tag, MutableAttributeSet attribute, int pos) {
-				if (tag == Tag.A) {
-					String address = (String) attribute.getAttribute(Attribute.HREF);
-					address = fixAddress(address);
-					list.add(address);
-				}
-			}
-			public void handleEndTag(Tag t, final int pos) {  }
-			public void handleSimpleTag(Tag t, MutableAttributeSet a, final int pos) { }
-			public void handleComment(final char[] data, final int pos) { }
-			public void handleError(final java.lang.String errMsg, final int pos) { }
-		};
-		try {
-			parserDelegator.parse(reader, parserCallback, false);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return list;
-	}
-	
-	private static String fixAddress(String address)
+	ReaderWriter rw;
+	private String domain;
+	public List<String> extractInfo(String htmlFilePath)
 	{
-		String fixedAddress;
-		if(address.contains("http"))
-		{
-			fixedAddress = address;
+		List<String> Infos = new ArrayList<String>();
+		String linkHref;
+		String linkText;
+		
+		String htmlContent = rw.read(htmlFilePath);
+		Document doc = Jsoup.parse(htmlContent);
+		
+		//Element content = doc.getElementById("content");
+		Elements links = doc.getElementsByTag("a");
+		for (Element link : links) {
+		  linkHref = link.attr("href");
+		  linkText = link.text();
+		  if(!linkText.isEmpty())
+		  {
+			  Infos.add(getCompleteHref(linkHref));
+		  }		  
+		}		
+		return Infos;
+	}
+	
+	private String getCompleteHref(String href)
+	{
+		String completeHref;
+		if(href.contains("http")) {
+			completeHref = href;
 		} else
 		{
-			fixedAddress = domain + address;
+			completeHref = this.domain + href;
 		}
-		
-		return fixedAddress;
+		return completeHref;
 	}
-		
-
-	public String getDomain() {
-		return domain;
-	}
-
-	public void setDomain(String domain) {
-		HTMLHandler.domain = domain;
+	
+	public HTMLHandler(String domain) {
+		// TODO Auto-generated constructor stub
+		this.domain = domain;
+		rw = new ReaderWriter();
 	}
 }
