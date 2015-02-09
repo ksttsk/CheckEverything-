@@ -1,4 +1,4 @@
-﻿Create Table "HTMLs"
+Create Table "HTMLs"
 (
 "ID" serial primary key,
 "Level" integer,
