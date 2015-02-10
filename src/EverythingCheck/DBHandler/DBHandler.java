@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DBHandler {
@@ -47,9 +48,12 @@ public class DBHandler {
 		
 		try {
 			rs = this.stat.executeQuery(sql);
+			
 			if (rs.next()) {		
 		        nextId = rs.getInt(1) + 1;
-		    }			
+		    } else {
+		    	nextId = 1; //if the table is empty, then the first ID = 1
+		    }	
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally
@@ -86,6 +90,64 @@ public class DBHandler {
 			}			
 		}
 	}
+	
+	
+	public List<Integer> getIDs(int level)
+	{
+		String sql = "Select \"ID\" From \"HTMLs\" Where \"Level\" = " + level + "order by \"ID\"";
+		ResultSet rs = null;
+		List<Integer> IDs = new ArrayList<Integer>();
+		this.connectDB();
+		
+		try {
+			rs = this.stat.executeQuery(sql);
+			
+			while (rs.next()) {		
+		        IDs.add(Integer.valueOf(rs.getString(1)));
+		    } 
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally
+		{
+			try {
+				stat.close();
+			    rs.close();
+			    con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return IDs;
+	}
+	
+	public List<String> getURLs(int level)
+	{
+		String sql = "Select \"URL\" From \"HTMLs\" Where \"Level\" = " + level + "order by \"ID\"";
+		ResultSet rs = null;
+		List<String> URLs = new ArrayList<String>();
+		this.connectDB();
+		
+		try {
+			rs = this.stat.executeQuery(sql);
+			
+			while (rs.next()) {		
+		        URLs.add(rs.getString(1));
+		    } 
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally
+		{
+			try {
+				stat.close();
+			    rs.close();
+			    con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return URLs;
+	}
+	
 	
 	
 	public void saveSingleRecordInDB(int id, int level, String url)

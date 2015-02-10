@@ -14,6 +14,8 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ReaderWriter {	
 	private FileOutputStream fop = null;
@@ -115,7 +117,64 @@ public class ReaderWriter {
 				e.printStackTrace();
 			}
 		}
-		
 		return content;
 	}	
+	
+	public boolean isFolderExisting(String folderPath)
+	{
+		boolean result;
+		File f = new File(folderPath);
+		
+		if(f.exists() && f.isDirectory())
+		{
+			result =true;
+		} else
+		{
+			result = false;
+		}
+		return result;
+	}
+	
+	
+	
+	public void createFolder(String folderPath)
+	{
+		File f = new File(folderPath);
+		f.mkdirs();
+	}
+	
+	
+	
+	public List<String> getFilesInFolder(String folderPath, String fileType)
+	{
+		List<String> filePaths = new ArrayList<String>();
+		File folder = new File(folderPath);
+		File[] listOfFiles = folder.listFiles();
+		String filePath;
+		for(int i=0; i<listOfFiles.length; i++)
+		{
+			if(listOfFiles[i].isFile())				
+			{
+				filePath = listOfFiles[i].getPath();
+				if(filePath.contains("." + fileType))
+				{
+					filePaths.add(filePath);	
+				}				
+			}
+		}		
+		return filePaths;
+	}
+	
+	public void moveFile(String filePath, String targetFolder)
+	{	
+		File afile =new File(filePath);
+		afile.renameTo(new File(targetFolder + afile.getName()));		
+	}
+	
+	public String getFileName(String filePath)
+	{
+		File afile =new File(filePath);
+		String fileNameWithExtension = afile.getName();
+		return fileNameWithExtension.substring(0, fileNameWithExtension.indexOf("."));
+	}
 }

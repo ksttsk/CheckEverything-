@@ -17,38 +17,24 @@ public class DownloadAssistant {
 		this.dbh = new DBHandler();
 	}
 
-	public String getStoredPathOfURLPage(String fileFolder)
+	public String getStoredPathOfURLPage(String fileFolder, int id)
 	{	
-		this.nextId = dbh.getNextID();
-		String filePath = fileFolder + this.nextId + ".html";
+//		this.nextId = dbh.getNextID();
+		String filePath = fileFolder + id + ".html";
 		return filePath;
 	}
 	
 	public void saveDownloadInfoInDB(int level, String url)
 	{
+		this.nextId = dbh.getNextID();
 		dbh.saveSingleRecordInDB(this.nextId, level, url);		
 		dbh.setColumnToTrue(this.nextId, DOWNLOADED_COL_NAME);
 	}
 	
+//	public List<String> getURLsToDownload(int level)
+//	{
+//		return dbh.getURLs(level);
+//	}
 	
-	public List<String> getFilesInFolder(String folderPath)
-	{
-		List<String> filePaths = null;
-		File folder = new File(folderPath);
-		File[] listOfFiles = folder.listFiles();
-		String filePath;
-		for(int i=0; i<listOfFiles.length; i++)
-		{
-			if(listOfFiles[i].isFile())				
-			{
-				filePath = listOfFiles[i].getPath();
-				if(filePath.contains(".html"))
-				{
-					filePaths.add(filePath);	
-				}				
-			}
-		}		
-		return filePaths;
-	}
 	
 }

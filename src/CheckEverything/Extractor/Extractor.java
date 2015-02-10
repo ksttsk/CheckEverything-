@@ -1,4 +1,4 @@
-package Utility;
+package CheckEverything.Extractor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,15 +8,26 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-public class HTMLHandler {
+import Utility.ReaderWriter;
+
+public class Extractor {
 	ReaderWriter rw;
 	private String domain;
-	public List<String> extractInfo(String htmlFilePath)
+	private ExtractAssistant ea;
+	
+	public Extractor(String domain) {
+		this.domain = domain;
+		rw = new ReaderWriter();
+		ea = new ExtractAssistant();
+	}
+	
+	
+	public void extractLinks(String htmlFilePath, int level)
 	{
 		List<String> Infos = new ArrayList<String>();
 		String linkHref;
 		String linkText;
-		
+		String fileNameWithoutExtension;
 		String htmlContent = rw.read(htmlFilePath);
 		Document doc = Jsoup.parse(htmlContent);
 		
@@ -30,9 +41,12 @@ public class HTMLHandler {
 				Infos.add(getCompleteHref(linkHref));
 			}		  
 		}		
-		return Infos;
+		fileNameWithoutExtension = rw.getFileName(htmlFilePath);
+		ea.saveExtractedInfoInDB(Integer.valueOf(fileNameWithoutExtension), Infos, level);
 	}
 	
+	
+
 	private String getCompleteHref(String href)
 	{
 		String completeHref;
@@ -45,9 +59,5 @@ public class HTMLHandler {
 		return completeHref;
 	}
 	
-	public HTMLHandler(String domain) {
-		// TODO Auto-generated constructor stub
-		this.domain = domain;
-		rw = new ReaderWriter();
-	}
+	
 }
