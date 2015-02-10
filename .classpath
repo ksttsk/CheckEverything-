@@ -3,7 +3,7 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/PostgreSQLJDBC"/>
-	<classpathentry kind="lib" path="/Users/haidong/Documents/workspace/CheckEverything/Lib/postgresql-9.4-1200.jdbc4.jar"/>
-	<classpathentry kind="lib" path="/Users/haidong/Documents/JAVAProject/CheckEverything/Lib/jsoup-1.8.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/hw/workspace/CheckEverything/Lib/postgresql-9.4-1200.jdbc4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/hw/workspace/CheckEverything/Lib/jsoup-1.8.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

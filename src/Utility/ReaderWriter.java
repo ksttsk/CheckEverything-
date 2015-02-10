@@ -42,8 +42,6 @@ public class ReaderWriter {
 			fop.write(contentInBytes);
 			fop.flush();
 			fop.close();
- 
-			System.out.println("File is written");
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -86,9 +84,10 @@ public class ReaderWriter {
 	
 	public String read(String filePath)
 	{		
+		String line = null;
+		String content = null;		
 		file = new File(filePath);
-		String line;
-		String content = null;
+		
 		try {
 			fip = new FileInputStream(file);
 			isr = new InputStreamReader(fip, ENCODING);
@@ -118,6 +117,5 @@ public class ReaderWriter {
 		}
 		
 		return content;
-	}
-	
+	}	
 }
