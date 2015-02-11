@@ -21,9 +21,6 @@ public class ExtractAssistant {
 		{
 			this.nextId = dbh.getNextID();
 			dbh.saveSingleRecordInDB(this.nextId, level, url);		
-		}
-		
-		
-		
+		}		
 	}
 }

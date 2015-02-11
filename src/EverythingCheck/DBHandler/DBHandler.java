@@ -23,7 +23,7 @@ public class DBHandler {
 		this.USERNAME = USERNAME;
 		this.PASSWORD = PASSWORD;
 	}
-	
+			
 	private void connectDB()
 	{
 		try {
@@ -35,8 +35,12 @@ public class DBHandler {
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {			
 			e.printStackTrace();
+		} finally {
+			
 		}			
 	}
+	
+	
 	
 	public int getNextID()
 	{
@@ -94,7 +98,7 @@ public class DBHandler {
 	
 	public List<Integer> getIDs(int level)
 	{
-		String sql = "Select \"ID\" From \"HTMLs\" Where \"Level\" = " + level + "order by \"ID\"";
+		String sql = "Select \"ID\" From \"HTMLs\" Where \"Level\" = " + level + " order by \"ID\"";
 		ResultSet rs = null;
 		List<Integer> IDs = new ArrayList<Integer>();
 		this.connectDB();
@@ -119,6 +123,8 @@ public class DBHandler {
 		}
 		return IDs;
 	}
+	
+	
 	
 	public List<String> getURLs(int level)
 	{
@@ -178,6 +184,7 @@ public class DBHandler {
 	}
 	
 	
+	
 	public void saveMultiRecordsInDB(int id, int level, List<String> URLs)
 	{
 		String sql = "INSERT INTO \"HTMLs\" (\"ID\", \"Level\", \"URL\") VALUES ";
@@ -206,23 +213,23 @@ public class DBHandler {
 		}
 	}
 	
-//	public void run()
-//	{
-//		this.connectDB();
-//		
-//		try {			
-//			ResultSet rs = this.s.executeQuery("Select * from \"HTMLs\"");
-//		    if (rs.next()) {
-//		        System.out.println(rs.getString(3) );
-//		    }
-//		    s.close();
-//		    rs.close();
-//		    con.close();
-//		} catch (SQLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} finally {
-//			
-//		}		
-//	}
+	public void clearDBTable()
+	{
+		String sql = "Delete From \"" + "HTMLs" + "\"";
+		this.connectDB();
+		try {
+			stat.executeUpdate(sql);			
+			con.commit();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally
+		{
+			try {
+				stat.close();
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}			
+		}
+	}
 }

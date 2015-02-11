@@ -177,4 +177,23 @@ public class ReaderWriter {
 		String fileNameWithExtension = afile.getName();
 		return fileNameWithExtension.substring(0, fileNameWithExtension.indexOf("."));
 	}
+	
+	
+	public void deleteDirectory(String directory) {
+		File dir = new File(directory);
+	    if(dir.exists()){
+	        File[] files = dir.listFiles();
+	        if(null!=files){
+	            for(int i=0; i<files.length; i++) {
+	                if(files[i].isDirectory()) {
+	                    deleteDirectory(files[i].getPath());
+	                }
+	                else {
+	                    files[i].delete();
+	                }
+	            }
+	        }
+	    }
+	    dir.delete();
+	}
 }

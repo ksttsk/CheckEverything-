@@ -12,11 +12,11 @@ import Utility.ReaderWriter;
 
 public class Extractor {
 	ReaderWriter rw;
-	private String domain;
+	private String url;
 	private ExtractAssistant ea;
 	
-	public Extractor(String domain) {
-		this.domain = domain;
+	public Extractor(String url) {
+		this.url = url;
 		rw = new ReaderWriter();
 		ea = new ExtractAssistant();
 	}
@@ -31,8 +31,8 @@ public class Extractor {
 		String htmlContent = rw.read(htmlFilePath);
 		Document doc = Jsoup.parse(htmlContent);
 		
-//		Element content = doc.getElementById("content");
-		Elements links = doc.getElementsByTag("a");
+		Element content = doc.getElementById("shopAllLinks");
+		Elements links = content.getElementsByTag("a");
 		for (Element link : links) {
 			linkHref = link.attr("href");
 			linkText = link.text();
@@ -46,7 +46,6 @@ public class Extractor {
 	}
 	
 	
-
 	private String getCompleteHref(String href)
 	{
 		String completeHref;
@@ -54,10 +53,16 @@ public class Extractor {
 			completeHref = href;
 		} else
 		{
-			completeHref = this.domain + href;
+			completeHref = getDomain(this.url) + href;
 		}
 		return completeHref;
 	}
 	
 	
+	private String getDomain(String url)
+	{
+		int pos1 = url.indexOf("//") + 2;
+		int pos2 = url.indexOf("/", pos1);
+		return url.substring(0, pos2);
+	}	
 }
